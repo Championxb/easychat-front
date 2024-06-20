@@ -48,13 +48,17 @@
 </template>
 
 <script setup>
-import { ref, reactive, getCurrentInstance, nextTick, onMounted } from 'vue'
+import { ref, reactive, getCurrentInstance, nextTick, onMounted, watch } from 'vue'
 import { useRouter, useRoute } from 'vue-router'
+import { useContactStateStore } from '@/stores/ContactStateStore'
+const contactStateStore = useContactStateStore()
 const { proxy } = getCurrentInstance()
 const router = useRouter()
-const searchKey = ref('')
 const route = useRoute()
 
+const searchKey = ref()
+const search = () => {
+}
 const rightTitle = ref('聊天窗口')
 const partList = ref([
     {
@@ -112,7 +116,6 @@ const partList = ref([
     }
 ])
 const partJump = (data) => {
-    console.log(data)
     if (data.showTitle) {
         rightTitle.value = data.name
     } else {
@@ -139,6 +142,26 @@ const loadContact = async (contactType) => {
 }
 loadContact('GROUP')
 loadContact('USER')
+
+watch(() => contactStateStore.contactReload,
+    (newVal, oldVal) => {
+        console.log(newVal, oldVal)
+        if (!newVal) {
+            return
+        }
+        switch (newVal) {
+            case 'USER':
+            case 'GROUP':
+                loadContact(newVal)
+                break
+        }
+        contactStateStore.setContactReload(null)
+    },
+    {
+        immediate: true,
+        deep: true
+    }
+)
 </script>
 <style lang="scss" scoped>
 .drag-panel {

@@ -29,8 +29,10 @@
     <WinOp :closeType="0"></WinOp>
 </template>
 <script setup>
-import { ref, reactive, getCurrentInstance, nextTick } from 'vue'
+import { ref, reactive, getCurrentInstance, nextTick, onMounted } from 'vue'
 import { useRouter } from 'vue-router'
+import { useUserInfoStore } from '@/stores/UserInfoStore';
+const userInfoStore = useUserInfoStore();
 const router = useRouter()
 const { proxy } = getCurrentInstance()
 const menuList = ref([
@@ -61,6 +63,18 @@ const changeMenu = (item) => {
     router.push(item.path)
 
 }
+const getLoginInfo = async () => {
+    let result = await proxy.Request({
+        url: proxy.Api.getUserInfo
+    })
+    if (!result) {
+        return
+    }
+    userInfoStore.setInfo(result.data)
+}
+onMounted(() => {
+    getLoginInfo()
+})
 </script>
 
 <style>

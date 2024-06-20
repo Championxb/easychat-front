@@ -15,6 +15,8 @@
 import { ref, reactive, getCurrentInstance, nextTick } from 'vue'
 import { useUserInfoStore } from '@/stores/UserInfoStore';
 const userInfoStore = useUserInfoStore();
+import { useContactStateStore } from '@/stores/ContactStateStore'
+const contactStateStore = useContactStateStore()
 const { proxy } = getCurrentInstance()
 const formData = ref({})
 const formDataRef = ref()
@@ -52,6 +54,10 @@ const submitApply = async () => {
     }
     dialogConfig.value.show = false
     emit('reload')
+    if (result.data == 0) {
+        contactStateStore.setContactReload(contactType);
+        console.log(contactType)
+    }
 }
 const show = (data) => {
     dialogConfig.value.show = true
