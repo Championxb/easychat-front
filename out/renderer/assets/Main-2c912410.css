@@ -1,0 +1,62 @@
+
+.main {
+    background: #f8f8f8;
+    display: flex;
+    border-radius: 0 3px 3px 0;
+    overflow: hidden;
+.left-sider {
+        width: 55px;
+        background: #2e2e2e;
+        text-align: center;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        padding-top: 35px;
+        border: 1px solid #2e2e2e;
+        border-right: none;
+        padding-bottom: 10px;
+.menu-list {
+            width: 100%;
+            flex: 1;
+.tab-item {
+                color: #d3d3d3;
+                font-size: 20px;
+                height: 40px;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                margin-top: 10px;
+                cursor: pointer;
+                font-size: 22px;
+                position: relative;
+}
+.active {
+                color: #07c160;
+}
+}
+.menu-button {
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-end;
+}
+}
+.right-container {
+        flex: 1;
+        overflow: hidden;
+        border: 1px solid #ddd;
+        border-left: none;
+}
+}
+.popover-user-panel {
+    padding: 10px;
+.popover-user {
+        display: flex;
+        border-bottom: 1px solid #ddd;
+        padding-bottom: 20px;
+}
+.send-message {
+        margin-top: 10px;
+        text-align: center;
+        padding: 20px 0 0 0;
+}
+}
