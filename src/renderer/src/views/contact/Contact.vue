@@ -170,6 +170,7 @@ const contactDetail = (contact, part) => {
     })
     console.log(contact[part.contactId])
 }
+
 watch(() => contactStateStore.contactReload,
     (newVal, oldVal) => {
         if (!newVal) {
@@ -182,6 +183,16 @@ watch(() => contactStateStore.contactReload,
             case 'USER':
             case 'GROUP':
                 loadContact(newVal)
+                break
+            case 'DISSOLUTION_GROUP':
+                loadMyGroup()
+                router.push('/contact/blank')
+                rightTitle.value = null
+                break
+            case 'LEAVE_GROUP':
+                loadContact('GROUP')
+                router.push('/contact/blank')
+                rightTitle.value = null
                 break
             case 'REMOVE_USER':
                 loadContact('USER')

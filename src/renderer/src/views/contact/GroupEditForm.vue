@@ -4,16 +4,16 @@
             <el-input maxlength=" 150" clearable placeholder="请输入群名称" v-model.trim="formData.groupName"></el-input>
         </el-form-item>
         <el-form-item label="封面" prop="avatarFile">
-            <AvatarUpload v-model="formData.avatarFile" ref="avatarUploadRef" @coverFile="saveCover"> </AvatarUpload>
+            <AvatarUpload ref="avatarUploadRef" @coverFile="saveCover"></AvatarUpload>
         </el-form-item>
         <el-form-item label="加入权限" prop="joinType">
             <el-radio-group v-model="formData.joinType">
-                <el-radio :label="1">管理员同意后加入</el-radio>
+                <el-radio :label="1">管理员同意后加入 </el-radio>
                 <el-radio :label="0">直接加入</el-radio>
             </el-radio-group>
         </el-form-item>
         <el-form-item label="公告" prop="groupNotice">
-            <el-input clearable placeholder="请输入群公告" v-model.trim="formData.groupNotice" type=" textarea" rows="5"
+            <el-input clearable placeholder="请输入群公告" v-model.trim="formData.groupNotice" type="textarea" rows="5"
                 maxlength="300" :show-word-limit="true" resize=" none"></el-input>
         </el-form-item>
         <el-form-item>
@@ -25,14 +25,16 @@
 import { ref, reactive, getCurrentInstance, nextTick } from 'vue'
 
 import { useContactStateStore } from '@/stores/ContactStateStore'
+import { da } from 'element-plus/es/locales.mjs';
 const contactStateStore = useContactStateStore()
 const { proxy } = getCurrentInstance()
 const formData = ref({})
 const formDataRef = ref()
+const avatarUploadRef = ref()
 const rules = {
     groupName: [{ required: true, message: "请输入群名称" }],
     joinType: [{ required: true, message: '请选择加入权限' }],
-    avatarFile: [{ required: true, message: '请选择头像' }]
+    avatarFile: [{ required: false, message: '请选择头像' }]
 }
 const emit = defineEmits(['editBack'])
 const submit = async () => {
@@ -65,7 +67,6 @@ const show = (data) => {
     formDataRef.value.resetFields()
     formData.value = Object.assign({}, data)
     formData.value.avatarFile = data.groupId
-    console.log(formData.value.groupName, formData.value.joinType, formData.value.groupNotice)
 }
 
 defineExpose({

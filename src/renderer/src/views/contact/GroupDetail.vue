@@ -55,6 +55,7 @@ import { useUserInfoStore } from '@/stores/UserInfoStore'
 import { useContactStateStore } from '@/stores/ContactStateStore'
 import { useRoute, useRouter } from 'vue-router'
 import GroupEditDialog from './GroupEditDialog.vue'
+import message from '../../utils/Message'
 const contactStateStore = useContactStateStore()
 const userInfoStore = useUserInfoStore()
 const { proxy } = getCurrentInstance()
@@ -78,8 +79,61 @@ const getGroupInfo = async () => {
 }
 
 const groupEditDialogRef = ref()
+//修改群信息
 const eidtGroupInfo = () => {
     groupEditDialogRef.value.show(groupInfo.value)
+}
+
+//解散群组
+const dissolutionGroup = async () => {
+    proxy.Confirm({
+        message: '确定要解散该群吗？删除后将无法恢复',
+        okfun: async () => {
+            contactStateStore.setContactReload(null)
+            let result = await proxy.Request({
+                url: proxy.Api.dissolutionGroup,
+                params: {
+                    groupId: groupId.value
+                }
+            })
+            if (!result) {
+                return
+            }
+            proxy.Message.success('解散成功')
+            //重新加载群组列表
+            contactStateStore.setContactReload('DISSOLUTION_GROUP')
+        }
+    })
+}
+//退出群组
+const leaveGroup = async () => {
+    proxy.Confirm({
+        message: '确定要退出该群吗？',
+        okfun: async () => {
+            contactStateStore.setContactReload(null)
+            let result = await proxy.Request({
+                url: proxy.Api.leaveGroup,
+                params: {
+                    groupId: groupId.value
+                }
+            })
+            if (!result) {
+                return
+            }
+            proxy.Message.success('退出成功')
+            //重新加载群组列表
+            contactStateStore.setContactReload('LEAVE_GROUP')
+        }
+    })
+}
+
+const sendMessage = () => {
+    router.push({
+        path: '/chat',
+        query: {
+            chatId: groupInfo.value.groupId, timestamp: new Date().getTime()
+        }
+    })
 }
 watch(
     () => route.query.contactId,

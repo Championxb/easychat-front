@@ -32,8 +32,7 @@ const props = defineProps({
     }
 })
 
-const uploadImage = async (file) => {
-    fiel = file.file
+const uploadImage = () => {
 }
 </script>
 <style lang="scss" scoped>
