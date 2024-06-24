@@ -150,7 +150,12 @@ const loadMyGroup = async () => {
     if (!result) {
         return
     }
-    partList.value[1].contactData = result.data
+    for (let i = 0; i < result.data.length; i++) {
+        if (result.data[i].status == 1) {
+            partList.value[1].contactData.push(result.data[i])
+        }
+    }
+    // partList.value[1].contactData = result.data
 }
 loadMyGroup()
 
@@ -162,12 +167,15 @@ const contactDetail = (contact, part) => {
     } else {
         rightTitle.value = null
     }
-    router.push({
-        path: part.contactPath,
-        query: {
-            contactId: contact[part.contactId]
-        }
-    })
+    //群存在
+    if (contact.status) {
+        router.push({
+            path: part.contactPath,
+            query: {
+                contactId: contact[part.contactId]
+            }
+        })
+    }
     console.log(contact[part.contactId])
 }
 
