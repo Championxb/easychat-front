@@ -133,14 +133,16 @@ const loadContact = async (contactType) => {
         return
     }
     if (contactType == 'GROUP') {
-        partList.value[2].contactData = result.data
+        for (let i = 0; i < result.data.length; i++) {
+            if (result.data[i].status == 1) {
+                partList.value[2].contactData.push(result.data[i])
+            }
+        }
+        // partList.value[2].contactData = result.data
     } else if (contactType == 'USER') {
         partList.value[3].contactData = result.data
     }
 }
-loadContact('GROUP')
-loadContact('USER')
-
 
 const loadMyGroup = async () => {
     let result = await proxy.Request({
@@ -150,6 +152,7 @@ const loadMyGroup = async () => {
     if (!result) {
         return
     }
+    partList.value[1].contactData = []
     for (let i = 0; i < result.data.length; i++) {
         if (result.data[i].status == 1) {
             partList.value[1].contactData.push(result.data[i])
@@ -157,8 +160,12 @@ const loadMyGroup = async () => {
     }
     // partList.value[1].contactData = result.data
 }
-loadMyGroup()
+onMounted(() => {
+    loadContact('GROUP')
+    loadContact('USER')
 
+    loadMyGroup()
+})
 const contactDetail = (contact, part) => {
     console.log(part)
     console.log(contact)
