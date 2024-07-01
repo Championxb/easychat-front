@@ -10,7 +10,8 @@
 <script setup>
 const props = defineProps({
     showTopBorder: {
-        type: Boolean, default: false
+        type: Boolean,
+        default: false
     }
 })
 

@@ -25,7 +25,6 @@
 import { ref, reactive, getCurrentInstance, nextTick } from 'vue'
 
 import { useContactStateStore } from '@/stores/ContactStateStore'
-import { da } from 'element-plus/es/locales.mjs';
 const contactStateStore = useContactStateStore()
 const { proxy } = getCurrentInstance()
 const formData = ref({})
@@ -62,6 +61,10 @@ const submit = async () => {
         contactStateStore.setContactReload('MY')
         //TODO重新加载头像
     })
+}
+
+const saveCover = () => {
+
 }
 const show = (data) => {
     formDataRef.value.resetFields()

@@ -5,7 +5,7 @@ const regs = {
   version: /^[0-9\.]+$/
 }
 
-const verify = (rule, value, reg, callback) => {
+const verify = (rule, value, regs, callback) => {
   if (value) {
     if (regs.test(value)) {
       callback()

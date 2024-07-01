@@ -23,7 +23,7 @@
     </diV>
 </template>
 <script setup>
-import { ref, reactive, getCurrentInstance, nextTick } from 'vue'
+import { ref, reactive, getCurrentInstance, nextTick, computed } from 'vue'
 const { proxy } = getCurrentInstance()
 const props = defineProps({
     modelValue: {
@@ -31,7 +31,10 @@ const props = defineProps({
         default: null
     }
 })
-
+const preview = computed(() => {
+    return props.modelValue instanceof File
+})
+//TODO文件上传
 const uploadImage = () => {
 }
 </script>
